@@ -228,14 +228,49 @@ int main() {
     // Creates graph
     Graph graph(edges);
 
-    // Prints the route network
-    graph.printGraph();
+    // Menu-driven driver; every option starts from San Francisco (vertex 0)
+    int choice;
+    do {
+        cout << endl << "Airline Route Network Menu:" << endl;
+        cout << "[1] Display airline route network" << endl;
+        cout << "[2] Check reachable airports by connections (BFS)" << endl;
+        cout << "[3] Trace route chains (DFS)" << endl;
+        cout << "[4] Calculate shortest paths" << endl;
+        cout << "[5] Find Minimum Spanning Tree" << endl;
+        cout << "[0] Exit" << endl;
+        cout << "Enter your choice: ";
 
-    // Driver: explore the network starting from San Francisco (vertex 0)
-    graph.DFS(0);
-    graph.BFS(0);
-    graph.shortestPath(0);
-    graph.minimumSpanningTree(0);
+        if (!(cin >> choice)) {
+            if (cin.eof())
+                break;                      // input ended, stop the menu
+            cin.clear();                    // bad input (not a number): reset and ignore it
+            cin.ignore(10000, '\n');
+            choice = -1;
+        }
+
+        switch (choice) {
+            case 1:
+                graph.printGraph();
+                break;
+            case 2:
+                graph.BFS(0);
+                break;
+            case 3:
+                graph.DFS(0);
+                break;
+            case 4:
+                graph.shortestPath(0);
+                break;
+            case 5:
+                graph.minimumSpanningTree(0);
+                break;
+            case 0:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number from 0 to 5." << endl;
+        }
+    } while (choice != 0);
 
     return 0;
 }
