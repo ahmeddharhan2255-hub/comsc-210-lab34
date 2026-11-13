@@ -1,5 +1,8 @@
+// COMSC-210 | Lab 34 | Ahmad Dharhan
+
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 const int SIZE = 7;
@@ -43,6 +46,35 @@ public:
             cout << endl;
         }
     }
+
+    void DFS(int start){
+        vector<bool> visited(SIZE, false);
+        cout << "DFS starting from vertex " << start << ": ";
+        DFSHelper(start,visited);
+        cout << endl;
+    }
+
+    void BFS(int start){
+        vector<bool> visited(SIZE, false);
+        queue<int> q;
+
+        visited[start] = true;
+        q.push(start);
+
+        cout << "BFS starting from vertex " << ": ";
+        while(!q.empty()){
+            int current = q.front();
+            q.pop();
+            cout << current << " ";
+
+            for (Pair neighbor : adjList[current]){
+                
+            }
+        }
+    }
+
+private:
+
 };
 
 int main() {
