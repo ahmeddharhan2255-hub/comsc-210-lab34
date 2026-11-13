@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
+
 using namespace std;
 
 const int SIZE = 7;
@@ -49,8 +51,28 @@ public:
 
     void DFS(int start){
         vector<bool> visited(SIZE, false);
+        stack<int> s;
+        s.push(start);
+
+
         cout << "DFS starting from vertex " << start << ": ";
-        DFSHelper(start,visited);
+
+        while(!s.empty()){
+            int current = s.top();
+            s.pop();
+
+            if (visited[current])
+                continue;
+
+            visited[current] = true;
+            cout << current << " ";
+
+            for (Pair neighbor: adjList[current]){
+                if(!visited[neighbor.first])
+                    s.push(neighbor.first);
+            }
+        }
+
         cout << endl;
     }
 
@@ -78,19 +100,6 @@ public:
 
         cout << endl;
 
-    }
-
-private:
-
-    void DFSHelper(int v, vector<bool> &visited){
-        visited[v] = true;
-        cout << v << " ";
-
-        for (Pair neighbor : adjList[v]){
-            int next = neighbor.first;
-            if(!visited[next])
-                DFSHelper(next, visited);
-        }
     }
 };
 
