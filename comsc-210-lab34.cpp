@@ -61,7 +61,7 @@ public:
         visited[start] = true;
         q.push(start);
 
-        cout << "BFS starting from vertex " << ": ";
+        cout << "BFS starting from vertex " << start << ": ";
         while(!q.empty()){
             int current = q.front();
             q.pop();
@@ -106,6 +106,12 @@ int main() {
 
     // Prints adjacency list representation of graph
     graph.printGraph();
+    cout << endl;
+
+    graph.DFS(0);
+    graph.BFS(0);
 
     return 0;
 }
+
+
