@@ -7,6 +7,7 @@
 #include <queue>
 #include <stack>
 #include <string>
+#include <climits>
 using namespace std;
  
 const int SIZE = 11;
@@ -61,7 +62,7 @@ public:
         for (int i = 0; i < adjList.size(); i++) {
             cout << label(i) << " connects to:" << endl;
             for (Pair v : adjList[i])
-                cout << " -> " << label(v.first)
+                cout << "  -> " << label(v.first)
                      << " (Flight time: " << v.second << " hr)" << endl;
         }
     }
@@ -95,7 +96,7 @@ public:
                 if (!visited[next]) {
                     if (!discovered[next]) {
                         discovered[next] = true;
-                        cout << " -> Possible connection to " << label(next)
+                        cout << "  -> Possible connection to " << label(next)
                              << " - Flight time: " << neighbor.second << " hr" << endl;
                     }
                     s.push(next);
@@ -133,6 +134,40 @@ public:
             }
         }
     }
+ 
+    // Dijkstra's algorithm: shortest flight time from start to every airport
+    void shortestPath(int start) {
+        vector<int> dist(SIZE, INT_MAX);    // best known distance to each airport
+        // min-heap of (distance, vertex) pairs so the closest airport comes out first
+        priority_queue<Pair, vector<Pair>, greater<Pair>> pq;
+ 
+        dist[start] = 0;
+        pq.push(make_pair(0, start));
+ 
+        while (!pq.empty()) {
+            int d = pq.top().first;
+            int current = pq.top().second;
+            pq.pop();
+ 
+            if (d > dist[current])
+                continue;                   // outdated queue entry, skip it
+ 
+            for (Pair neighbor : adjList[current]) {
+                int next = neighbor.first;
+                int weight = neighbor.second;
+ 
+                // found a shorter way to reach 'next' through 'current'
+                if (dist[current] + weight < dist[next]) {
+                    dist[next] = dist[current] + weight;
+                    pq.push(make_pair(dist[next], next));
+                }
+            }
+        }
+ 
+        cout << endl << "Shortest path from " << label(start) << ":" << endl;
+        for (int i = 0; i < SIZE; i++)
+            cout << CODES[start] << " -> " << CODES[i] << " : " << dist[i] << " hr" << endl;
+    }
 };
  
 int main() {
@@ -164,9 +199,7 @@ int main() {
     // Driver: explore the network starting from San Francisco (vertex 0)
     graph.DFS(0);
     graph.BFS(0);
+    graph.shortestPath(0);
  
     return 0;
 }
- 
-
-
