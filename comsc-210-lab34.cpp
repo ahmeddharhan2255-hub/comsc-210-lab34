@@ -68,13 +68,30 @@ public:
             cout << current << " ";
 
             for (Pair neighbor : adjList[current]){
-                
+                int next = neighbor.first;
+                if(!visited[next]){
+                    visited[next] = true;
+                    q.push(next);
+                }
             }
         }
+
+        cout << endl;
+
     }
 
 private:
 
+    void DFSHelper(int v, vector<bool> &visited){
+        visited[v] = true;
+        cout << v << " ";
+
+        for (Pair neighbor : adjList[v]){
+            int next = neighbor.first;
+            if(!visited[next])
+                DFSHelper(next, visited);
+        }
+    }
 };
 
 int main() {
